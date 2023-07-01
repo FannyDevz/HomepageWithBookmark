@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+
+    <script src="https://kit.fontawesome.com/2d1f726aba.js" crossorigin="anonymous"></script>
+
+    <title>Homepage</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link href="favicon.png" rel="shortcut icon" type="image/x-icon" />
+  </head>
+  <body>
+
+  <div id="search">
+      <input
+        id="search-field"
+        type="text"
+        name="search-field"
+        onkeypress="return search(event)"
+      />
+    </div>
+    <div class="container">
+      <div id="clock"></div>
+      <div class="weather-container">
+        <div class="row">
+          <div id="weather-description" class="inline"></div>
+          <div class="inline">-</div>
+          <div id="temp" class="inline"></div>
+        </div>
+      </div>
+      <div id="bookmark-container"></div>
+
+      <button id="config-toggle" onclick="toggleConfig()">
+        <i class="fas fa-cog"></i>
+      </button>
+
+      <div id="config-container" style="display: none;">
+        <h3>Configuration</h3>
+        <div class="config-item">
+          <label for="color-picker">Background Color:</label>
+          <input id="color-picker" type="color" onchange="changeBackgroundColor()" />
+        </div>
+
+
+        <div class="config-item">
+          <label for="fg-color-picker">Text Color:</label>
+          <input id="fg-color-picker" type="color" onchange="changeTextColor()" />
+        </div>
+
+        <div class="config-item">
+          <label for="secondary-fg-color-picker">Secondary Text Color:</label>
+          <input id="secondary-fg-color-picker" type="color" onchange="changeSecondaryTextColor()" />
+        </div>
+
+        <div class="config-item">
+          <label for="container-bg-color-picker">Container Background Color:</label>
+          <input id="container-bg-color-picker" type="color" onchange="changeContainerBackgroundColor()" />
+        </div>
+
+        <div class="config-item">
+          <label for="search-bg-color-picker">Search Background Color:</label>
+          <input id="search-bg-color-picker" type="color" onchange="changeSearchBackgroundColor()" />
+        </div>
+
+        <div class="config-item">
+          <label for="scrollbar-color-picker">Scrollbar Color:</label>
+          <input id="scrollbar-color-picker" type="color" onchange="changeScrollbarColor()" />
+        </div>
+
+        <div class="config-item">
+          <label for="font-picker">Font Family:</label>
+          <select id="font-picker" onchange="changeFontFamily()">
+            <option value="Roboto Mono">Roboto Mono</option>
+            <option value="Arial">Arial</option>
+            <option value="Verdana">Verdana</option>
+            <option value="Poppins">Poppins</option>
+            <option value="Montserrat">Montserrat</option>
+          </select>
+
+        </div>
+        <button id="config-close" onclick="closeConfig()">Close Configuration</button>
+
+      </div>
+
+
+
+      <script>
+
+        function saveConfiguration() {
+          const colorPicker = document.getElementById("color-picker");
+          const fgColorPicker = document.getElementById("fg-color-picker");
+          const secondaryFgColorPicker = document.getElementById("secondary-fg-color-picker");
+          const containerBgColorPicker = document.getElementById("container-bg-color-picker");
+          const searchBgColorPicker = document.getElementById("search-bg-color-picker");
+          const scrollbarColorPicker = document.getElementById("scrollbar-color-picker");
+          const fontPicker = document.getElementById("font-picker");
+
+          localStorage.setItem("bgColor", colorPicker.value);
+          localStorage.setItem("fgColor", fgColorPicker.value);
+          localStorage.setItem("secondaryFgColor", secondaryFgColorPicker.value);
+          localStorage.setItem("containerBgColor", containerBgColorPicker.value);
+          localStorage.setItem("searchBgColor", searchBgColorPicker.value);
+          localStorage.setItem("scrollbarColor", scrollbarColorPicker.value);
+          localStorage.setItem("fontFamily", fontPicker.value);
+        }
+        function changeBackgroundColor() {
+          const colorPicker = document.getElementById("color-picker");
+          document.documentElement.style.setProperty("--bg", colorPicker.value);
+          saveConfiguration();
+        }
+
+        function changeTextColor() {
+          const colorPicker = document.getElementById("fg-color-picker");
+          document.documentElement.style.setProperty("--fg", colorPicker.value);
+          saveConfiguration();
+        }
+
+        function changeSecondaryTextColor() {
+          const colorPicker = document.getElementById("secondary-fg-color-picker");
+          document.documentElement.style.setProperty("--secondaryFg", colorPicker.value);
+          saveConfiguration();
+        }
+
+        function changeContainerBackgroundColor() {
+          const colorPicker = document.getElementById("container-bg-color-picker");
+          document.documentElement.style.setProperty("--containerBg", colorPicker.value);
+          saveConfiguration();
+        }
+
+        function changeSearchBackgroundColor() {
+          const colorPicker = document.getElementById("search-bg-color-picker");
+          document.documentElement.style.setProperty("--searchBg", colorPicker.value);
+          saveConfiguration();
+        }
+        function changeScrollbarColor() {
+          const colorPicker = document.getElementById("scrollbar-color-picker");
+          document.documentElement.style.setProperty("--scrollbarColor", colorPicker.value);
+          saveConfiguration();
+        }
+
+        function changeFontFamily() {
+          const fontPicker = document.getElementById("font-picker");
+          document.documentElement.style.setProperty("--fontFamily", fontPicker.value);
+          saveConfiguration();
+        }
+
+        function changeConfigButtonBackgroundColor() {
+          const colorPicker = document.getElementById("config-button-bg-color-picker");
+          document.documentElement.style.setProperty("--configButtonBg", colorPicker.value);
+        }
+
+        function changeConfigButtonTextColor() {
+          const colorPicker = document.getElementById("config-button-color-picker");
+          document.documentElement.style.setProperty("--configButtonColor", colorPicker.value);
+        }
+
+      </script>
+
+      <script src="bookmarks.js"></script>
+    <script>
+      function toggleConfig() {
+        const configContainer = document.getElementById("config-container");
+        const configToggle = document.getElementById("config-toggle");
+
+        if (configContainer.style.display === "none") {
+          configContainer.style.display = "block";
+          configToggle.innerHTML = '<i class="fas fa-times"></i>';
+        } else {
+          configContainer.style.display = "none";
+          configToggle.innerHTML = '<i class="fas fa-cog"></i>';
+        }
+      }
+
+      function closeConfig() {
+        const configContainer = document.getElementById("config-container");
+        const configToggle = document.getElementById("config-toggle");
+
+        configContainer.style.display = "none";
+        configToggle.innerHTML = '<i class="fas fa-cog"></i>';
+      }
+
+      window.addEventListener("DOMContentLoaded", () => {
+          const defaultBgColor = getComputedStyle(document.documentElement).getPropertyValue("--bg") || "#030303";
+          const defaultFgColor = getComputedStyle(document.documentElement).getPropertyValue("--fg") || "#ffffff";
+          const defaultSecondaryFgColor = getComputedStyle(document.documentElement).getPropertyValue("--secondaryFg") || "#b3b3b3";
+          const defaultContainerBgColor = getComputedStyle(document.documentElement).getPropertyValue("--containerBg") || "#272727";
+          const defaultSearchBgColor = getComputedStyle(document.documentElement).getPropertyValue("--searchBg") || defaultContainerBgColor;
+          const defaultScrollbarColor = getComputedStyle(document.documentElement).getPropertyValue("--scrollbarColor") || "#3f3f3f";
+          const defaultFontFamily = getComputedStyle(document.documentElement).getPropertyValue("--fontFamily") || "'Roboto Mono', monospace";
+          const defaultConfigButtonBgColor = getComputedStyle(document.documentElement).getPropertyValue("--configButtonBg") || "#555555";
+          const defaultConfigButtonTextColor = getComputedStyle(document.documentElement).getPropertyValue("--configButtonColor") || "#ffffff";
+
+          const bgColor = localStorage.getItem("bgColor") || defaultBgColor;
+          const fgColor = localStorage.getItem("fgColor") || defaultFgColor;
+          const secondaryFgColor = localStorage.getItem("secondaryFgColor") || defaultSecondaryFgColor;
+          const containerBgColor = localStorage.getItem("containerBgColor") || defaultContainerBgColor;
+          const searchBgColor = localStorage.getItem("searchBgColor") || defaultSearchBgColor;
+          const scrollbarColor = localStorage.getItem("scrollbarColor") || defaultScrollbarColor;
+          const fontFamily = localStorage.getItem("fontFamily") || defaultFontFamily;
+          const configButtonBgColor = localStorage.getItem("configButtonBgColor") || defaultConfigButtonBgColor;
+          const configButtonTextColor = localStorage.getItem("configButtonTextColor") || defaultConfigButtonTextColor;
+
+          document.documentElement.style.setProperty("--bg", bgColor);
+          document.documentElement.style.setProperty("--fg", fgColor);
+          document.documentElement.style.setProperty("--secondaryFg", secondaryFgColor);
+          document.documentElement.style.setProperty("--containerBg", containerBgColor);
+          document.documentElement.style.setProperty("--searchBg", searchBgColor);
+          document.documentElement.style.setProperty("--scrollbarColor", scrollbarColor);
+          document.documentElement.style.setProperty("--fontFamily", fontFamily);
+          document.documentElement.style.setProperty("--configButtonBg", configButtonBgColor);
+          document.documentElement.style.setProperty("--configButtonColor", configButtonTextColor);
+
+          const colorPicker = document.getElementById("color-picker");
+          colorPicker.value = bgColor;
+
+          const fgColorPicker = document.getElementById("fg-color-picker");
+          fgColorPicker.value = fgColor;
+
+          const secondaryFgColorPicker = document.getElementById("secondary-fg-color-picker");
+          secondaryFgColorPicker.value = secondaryFgColor;
+
+          const containerBgColorPicker = document.getElementById("container-bg-color-picker");
+          containerBgColorPicker.value = containerBgColor;
+
+          const searchBgColorPicker = document.getElementById("search-bg-color-picker");
+          searchBgColorPicker.value = searchBgColor;
+
+          const scrollbarColorPicker = document.getElementById("scrollbar-color-picker");
+          scrollbarColorPicker.value = scrollbarColor;
+
+          const fontPicker = document.getElementById("font-picker");
+          fontPicker.value = fontFamily;
+
+          const configButtonBgColorPicker = document.getElementById("config-button-bg-color-picker");
+          configButtonBgColorPicker.value = configButtonBgColor;
+
+          const configButtonColorPicker = document.getElementById("config-button-color-picker");
+          configButtonColorPicker.value = configButtonTextColor;
+        });
+
+
+      const searchUrl = "https://google.com/search?q=";
+      // Search on enter key event
+      function search(e) {
+        if (e.keyCode == 13) {
+          var val = document.getElementById("search-field").value;
+          window.open(searchUrl + val);
+        }
+      }
+      // Get current time and format
+      function getTime() {
+        let date = new Date(),
+          min = date.getMinutes(),
+          sec = date.getSeconds(),
+          hour = date.getHours();
+
+        return (
+          "" +
+          (hour < 10 ? "0" + hour : hour) +
+          ":" +
+          (min < 10 ? "0" + min : min) +
+          ":" +
+          (sec < 10 ? "0" + sec : sec)
+        );
+      }
+      // Handle Weather request
+      function getWeather() {
+        let xhr = new XMLHttpRequest();
+        // Request to open weather map
+        xhr.open(
+          "GET",
+          "http://api.openweathermap.org/data/2.5/weather?id=4737316&units=imperial&appid=e5b292ae2f9dae5f29e11499c2d82ece"
+        );
+        xhr.onload = () => {
+          if (xhr.readyState === 4) {
+            if (xhr.status === 200) {
+              let json = JSON.parse(xhr.responseText);
+              document.getElementById("temp").innerHTML =
+                json.main.temp.toFixed(0) + " F";
+              document.getElementById("weather-description").innerHTML =
+                json.weather[0].description;
+            } else {
+              console.log("error msg: " + xhr.status);
+            }
+          }
+        };
+        xhr.send();
+      }
+      // Handle writing out Bookmarks
+      function setupBookmarks() {
+        const bookmarkContainer = document.getElementById("bookmark-container");
+        bookmarkContainer.innerHTML = bookmarks
+          .map((b) => {
+            const html = ["<div class='bookmark-set'>"];
+            html.push(`<div class="bookmark-title">${b.title}</div>`);
+            html.push('<div class="bookmark-inner-container">');
+            html.push(
+              ...b.links.map(
+                (l) =>
+                  `<a class="bookmark" href="${l.url}" target="_blank">${l.name}</a>`
+              )
+            );
+            html.push("</div></div>");
+            return html.join("");
+          })
+          .join("");
+      }
+
+      window.onload = () => {
+        setupBookmarks();
+        getWeather();
+        // Set up the clock
+        document.getElementById("clock").innerHTML = getTime();
+        // Set clock interval to tick clock
+        setInterval(() => {
+          document.getElementById("clock").innerHTML = getTime();
+        }, 100);
+      };
+
+      document.addEventListener("keyup", (event) => {
+        if (event.keyCode == 32) {
+          // Spacebar code to open search
+          document.getElementById("search").style.display = "flex";
+          document.getElementById("search-field").focus();
+        } else if (event.keyCode == 27) {
+          // Esc to close search
+          document.getElementById("search-field").value = "";
+          document.getElementById("search-field").blur();
+          document.getElementById("search").style.display = "none";
+        }
+      });
+    </script>
+
+  </body>
+</html>
