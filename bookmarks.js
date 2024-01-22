@@ -7,6 +7,7 @@ const bookmarks = [
       { name: "GitHub", url: "https://github.com" },
       { name: "Drive", url: "https://drive.google.com" },
       { name: "ClickUp", url: "https://app.clickup.com" },
+      { name: "GoogleKeep", url:"https://keep.google.com"},
     ],
   },
   {
